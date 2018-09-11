@@ -141,6 +141,7 @@
     <ClInclude Include="Cescenario.h" />
     <ClInclude Include="CJuego.h" />
     <ClInclude Include="CNube.h" />
+    <ClInclude Include="CObs.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

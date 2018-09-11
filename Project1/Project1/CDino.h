@@ -40,6 +40,7 @@ public:
 		Rectangle pAU = Rectangle(inX*ancho, 0, ancho, alto);
 		Rectangle pAU2 = Rectangle(0, 0, ancho, alto);
 		Rectangle lugar = Rectangle(x, y, ancho, alto);
+		
 		dino->MakeTransparent(Color::White);
 		dino_up->MakeTransparent(Color::White);
 		if (saltando == false) {
@@ -48,8 +49,11 @@ public:
 		}
 		else
 			buffer->Graphics->DrawImage(dino_up, lugar, pAU2, GraphicsUnit::Pixel);
-		area = lugar;
+		area = Rectangle(x+24,y+22,100,100);
 	};
+	Rectangle getarea() {
+		return area;
+	}
 	void saltar() {
 		if (saltando == true) {
 

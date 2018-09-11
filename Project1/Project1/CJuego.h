@@ -38,8 +38,10 @@ public:
 		esc->mover();
 		scr++;
 		aum++;
-		if (aum % 180 == 0)
+		if (aum % 550 == 0)
 			esc->addnube();
+		if (aum % 250 == 0)
+			esc->addObs();
 		if (aum % 578 == 0) {
 			esc->velaum();
 		}

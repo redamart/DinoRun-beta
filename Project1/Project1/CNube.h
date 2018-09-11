@@ -18,7 +18,7 @@ private:
 public:
 	CNube() {
 		nube = gcnew Bitmap("img/cloud.png");
-		vel = 2;
+		vel = 1;
 		this->y = r.Next(120, 300);
 		x = 1200;
 		dvel = 2;
@@ -32,14 +32,7 @@ public:
 
 
 	}
-	void velaumnube() {
-		if (dvel > 1) {
-			
-			vel += dvel;
-			dvel--;
-		}
-		
-	}
+	
 	void movernube() {
 		x -= vel;
 	}
