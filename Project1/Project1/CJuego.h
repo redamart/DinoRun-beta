@@ -14,9 +14,9 @@ private:
 	String^ puntaje;
 	long aum;
 	bool saltando;
-	
-	
-	
+	bool gameover;
+
+
 public:
 	CJuego() {
 		dino = gcnew CDino();
@@ -24,7 +24,8 @@ public:
 		scr = 0;
 		aum = 1;
 		saltando = false;
-		
+		gameover = false;
+
 	}
 
 	void dibujar(BufferedGraphics ^buffer, int sw, int sh) {
@@ -32,6 +33,12 @@ public:
 
 		dino->dibujarDino(buffer);
 
+	}
+	void Intersect() {
+		
+	}
+	bool getGameOver() {
+		return gameover;
 	}
 	void animar() {
 		dino->mover();
@@ -45,7 +52,8 @@ public:
 		if (aum % 578 == 0) {
 			esc->velaum();
 		}
-		
+		if (dino->getarea().IntersectsWith(esc->getObsArea()) == true)
+			gameover = true;
 	}
 	int getscr() { return scr; }
 
@@ -57,6 +65,9 @@ public:
 	}
 	void setState(bool state) {
 		dino->setState(state);
+	}
+	bool getState() {
+		return dino->getState();
 	}
 
 

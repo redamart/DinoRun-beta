@@ -49,7 +49,7 @@ public:
 		}
 		else
 			buffer->Graphics->DrawImage(dino_up, lugar, pAU2, GraphicsUnit::Pixel);
-		area = Rectangle(x+24,y+22,100,100);
+		area = Rectangle(x+24,y+22,80,80);
 	};
 	Rectangle getarea() {
 		return area;

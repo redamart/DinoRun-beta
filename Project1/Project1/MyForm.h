@@ -8,15 +8,17 @@ namespace Project1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+	using namespace System::Media;
 	/// <summary>
 	/// Resumen de MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
-		
+		SoundPlayer^ jump = gcnew SoundPlayer("sounds/jump.wav");
+		SoundPlayer^ hit = gcnew SoundPlayer("sounds/hit.wav");
 		CJuego^ DinoRun;
+		bool gg;
 		
 	public:
 		MyForm(void)
@@ -27,7 +29,7 @@ namespace Project1 {
 			//
 			DinoRun = gcnew CJuego();
 			
-
+			gg = false;
 			
 		}
 
@@ -45,6 +47,7 @@ namespace Project1 {
 	private: System::Windows::Forms::Timer^  timer1;
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::Label^  label3;
 	protected:
 	private: System::ComponentModel::IContainer^  components;
 
@@ -66,6 +69,7 @@ namespace Project1 {
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// timer1
@@ -107,11 +111,27 @@ namespace Project1 {
 			this->label2->Text = L"SCORE:";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
 			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->BackColor = System::Drawing::Color::White;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Minecraftia", 48, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label3->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->label3->Location = System::Drawing::Point(308, 228);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(447, 112);
+			this->label3->TabIndex = 2;
+			this->label3->Text = L"GAME OVER";
+			this->label3->Visible = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(984, 561);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->DoubleBuffered = true;
@@ -135,18 +155,34 @@ namespace Project1 {
 		buffer->Graphics->Clear(Color::White);
 
 		
-		DinoRun->dibujar(buffer, Width, Height);
-		DinoRun->animar();
-		DinoRun->valsalto();
-		label1->Text = DinoRun->getscr().ToString();
+			DinoRun->dibujar(buffer, Width, Height);
+			DinoRun->animar();
+			DinoRun->valsalto();
+			label1->Text = DinoRun->getscr().ToString();
+		
+			if (DinoRun->getGameOver() == true) {
+				//DinoRun->dibujar(buffer, Width, Height);
+				label3->Visible = true;
+				gg = true;
+				hit->Play();
+				timer1->Enabled = false;
+
+			}
+
+		
 		buffer->Render(g);
 		delete buffer;
 		delete espacioBuffer;  delete g;
 		
 	}
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-		if (e->KeyCode == Keys::Space) {
-			DinoRun->setState(true);
+
+		if (DinoRun->getGameOver() == false) {
+			if (e->KeyCode == Keys::Space && DinoRun->getState()== false) {
+				DinoRun->setState(true);
+				jump->Play();
+				
+			}
 		}
 	}
 };

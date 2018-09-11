@@ -44,12 +44,12 @@ public:
 		buffer->Graphics->DrawImage(fl_2, X2, 428);
 		for (int i = 0; i < n; i++) {
 			nubes[i]->dibujarnube(buffer);
-			nubes[i]->movernube();
+		
 
 		}
 		for (int i = 0; i < o; i++) {
 			obs[i]->dibujarobs(buffer);
-			obs[i]->moverObs();
+		
 
 		}
 	}
@@ -74,6 +74,9 @@ public:
 		}
 		
 	}
+	Rectangle getObsArea() {
+		return obs[o-1]->getArea();
+	}
 	void mover() {
 		if (X1 < -1500) {
 			X1 = 1500;
@@ -83,6 +86,16 @@ public:
 		}
 		X1 -= vel;
 		X2 -= vel;
+		for (int i = 0; i < n; i++) {
+			
+			nubes[i]->movernube();
+
+		}
+		for (int i = 0; i < o; i++) {
+		
+			obs[i]->moverObs();
+
+		}
 	}
 	
 	
