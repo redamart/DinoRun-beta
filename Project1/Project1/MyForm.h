@@ -188,6 +188,10 @@ namespace Project1 {
 
 		}
 #pragma endregion
+		void play() {
+			if (DinoRun->getGameOver()== true)
+			hit->Play();
+		}
 	private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
 		Graphics^g = CreateGraphics();
 		BufferedGraphicsContext ^espacioBuffer = BufferedGraphicsManager::Current;
@@ -195,20 +199,24 @@ namespace Project1 {
 		buffer->Graphics->Clear(Color::White);
 
 		
-			DinoRun->dibujar(buffer, Width, Height);
-			DinoRun->animar();
-			DinoRun->valsalto();
-			label1->Text = DinoRun->getscr().ToString();
+			
 		
 			if (DinoRun->getGameOver() == true) {
 				//DinoRun->dibujar(buffer, Width, Height);
+				DinoRun->dibujar(buffer, Width, Height);
 				label3->Visible = true;
 				label5->Text = DinoRun->geths().ToString();
 				gg = true;
-				
 				hit->Play();
 				timer1->Enabled = false;
+				
 
+			}
+			else {
+				DinoRun->dibujar(buffer, Width, Height);
+				DinoRun->animar();
+				DinoRun->valsalto();
+				label1->Text = DinoRun->getscr().ToString();
 			}
 
 		
@@ -220,18 +228,18 @@ namespace Project1 {
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 
 		
-			if (e->KeyCode == Keys::Space && DinoRun->getState()== false) {
+			if (e->KeyCode == Keys::Space ) {
 				if (DinoRun->getGameOver() == false) {
-					DinoRun->setState(true);
-					jump->Play();
+					if (DinoRun->getState() == false) {
+						DinoRun->setState(true);
+						jump->Play();
+					}
 					
-				}else{
+				}
+				if(DinoRun->getGameOver()== true){
 					label3->Visible = false;
-					DinoRun->reset();
+					DinoRun->reset();				
 					timer1->Enabled = true;
-					
-					
-				
 
 				
 			}
