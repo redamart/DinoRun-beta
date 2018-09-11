@@ -18,8 +18,10 @@ namespace Project1 {
 		SoundPlayer^ jump = gcnew SoundPlayer("sounds/jump.wav");
 		SoundPlayer^ hit = gcnew SoundPlayer("sounds/hit.wav");
 		CJuego^ DinoRun;
-		bool gg;
-		
+	private: System::Windows::Forms::Label^  label4;
+	private: System::Windows::Forms::Label^  label5;
+			 bool gg;
+			 int hs;
 	public:
 		MyForm(void)
 		{
@@ -70,6 +72,8 @@ namespace Project1 {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// timer1
@@ -88,7 +92,7 @@ namespace Project1 {
 			this->label1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			this->label1->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
-			this->label1->Location = System::Drawing::Point(832, 24);
+			this->label1->Location = System::Drawing::Point(812, 24);
 			this->label1->Name = L"label1";
 			this->label1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
 			this->label1->Size = System::Drawing::Size(144, 65);
@@ -104,7 +108,7 @@ namespace Project1 {
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
-			this->label2->Location = System::Drawing::Point(622, 24);
+			this->label2->Location = System::Drawing::Point(634, 24);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(183, 65);
 			this->label2->TabIndex = 1;
@@ -126,11 +130,47 @@ namespace Project1 {
 			this->label3->Text = L"GAME OVER";
 			this->label3->Visible = false;
 			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->BackColor = System::Drawing::Color::White;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Minecraftia", 27.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label4->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->label4->Location = System::Drawing::Point(334, 24);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(154, 65);
+			this->label4->TabIndex = 3;
+			this->label4->Text = L"BEST:";
+			this->label4->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->label4->Click += gcnew System::EventHandler(this, &MyForm::label4_Click);
+			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->BackColor = System::Drawing::Color::White;
+			this->label5->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->label5->Font = (gcnew System::Drawing::Font(L"Minecraftia", 27.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label5->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->label5->ImageAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->label5->Location = System::Drawing::Point(484, 24);
+			this->label5->Name = L"label5";
+			this->label5->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
+			this->label5->Size = System::Drawing::Size(144, 65);
+			this->label5->TabIndex = 4;
+			this->label5->Text = L"0000";
+			this->label5->TextAlign = System::Drawing::ContentAlignment::TopRight;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(984, 561);
+			this->Controls->Add(this->label5);
+			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -163,7 +203,9 @@ namespace Project1 {
 			if (DinoRun->getGameOver() == true) {
 				//DinoRun->dibujar(buffer, Width, Height);
 				label3->Visible = true;
+				label5->Text = DinoRun->geths().ToString();
 				gg = true;
+				
 				hit->Play();
 				timer1->Enabled = false;
 
@@ -177,13 +219,25 @@ namespace Project1 {
 	}
 	private: System::Void MyForm_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 
-		if (DinoRun->getGameOver() == false) {
+		
 			if (e->KeyCode == Keys::Space && DinoRun->getState()== false) {
-				DinoRun->setState(true);
-				jump->Play();
+				if (DinoRun->getGameOver() == false) {
+					DinoRun->setState(true);
+					jump->Play();
+					
+				}else{
+					label3->Visible = false;
+					DinoRun->reset();
+					timer1->Enabled = true;
+					
+					
+				
+
 				
 			}
 		}
 	}
+private: System::Void label4_Click(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }

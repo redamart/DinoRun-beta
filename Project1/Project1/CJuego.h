@@ -15,6 +15,7 @@ private:
 	long aum;
 	bool saltando;
 	bool gameover;
+	int hs;
 
 
 public:
@@ -25,18 +26,28 @@ public:
 		aum = 1;
 		saltando = false;
 		gameover = false;
-
+		hs = 0;
 	}
-
+	void reset() {
+		delete dino;
+		delete esc;
+		dino = gcnew CDino();
+		esc = gcnew CEscenario();
+		scr = 0;
+		aum = 1;
+		saltando = false;
+		gameover = false;
+	}
+	void seths(int _hs) {
+		hs = _hs;
+	}
 	void dibujar(BufferedGraphics ^buffer, int sw, int sh) {
 		esc->dibujarfondo(buffer, sw, sh);
 
 		dino->dibujarDino(buffer);
 
 	}
-	void Intersect() {
-		
-	}
+	
 	bool getGameOver() {
 		return gameover;
 	}
@@ -52,11 +63,15 @@ public:
 		if (aum % 578 == 0) {
 			esc->velaum();
 		}
-		if (dino->getarea().IntersectsWith(esc->getObsArea()) == true)
+		if (dino->getarea().IntersectsWith(esc->getObsArea()) == true) {
+			if (hs < scr) {
+				hs = scr;
+			}
 			gameover = true;
+		}
 	}
 	int getscr() { return scr; }
-
+	int geths() { return hs; }
 	
 	void valsalto() {
 		
@@ -72,7 +87,9 @@ public:
 
 
 	~CJuego() {
-
+		delete dino;
+		delete esc;
+		
 	}
 
 
